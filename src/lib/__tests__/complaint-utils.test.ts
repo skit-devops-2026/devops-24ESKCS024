@@ -84,7 +84,7 @@ describe("countByCategory", () => {
 
 describe("paginate", () => {
   it("slices pages of the requested size", () => {
-    expect(paginate(items, 1, 2).map((c) => c.id)).toEqual(["1", "2"]);
+    expect(paginate(items, 1, 2).map((c) => c.id)).toEqual(["1", "FAIL_DEMO"]);
     expect(paginate(items, 2, 2).map((c) => c.id)).toEqual(["3", "4"]);
     expect(paginate(items, 9, 2)).toEqual([]);
   });
