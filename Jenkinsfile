@@ -23,19 +23,37 @@ pipeline {
 
         stage('Install') {
             steps {
-                bat 'npm install --legacy-peer-deps'
+                script {
+                    if (isUnix()) {
+                        sh 'npm install --legacy-peer-deps'
+                    } else {
+                        bat 'npm install --legacy-peer-deps'
+                    }
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'npm run test:ci'
+                script {
+                    if (isUnix()) {
+                        sh 'npm run test:ci'
+                    } else {
+                        bat 'npm run test:ci'
+                    }
+                }
             }
         }
 
         stage('Build') {
             steps {
-                bat 'npm run build'
+                script {
+                    if (isUnix()) {
+                        sh 'npm run build'
+                    } else {
+                        bat 'npm run build'
+                    }
+                }
             }
         }
 

@@ -17,6 +17,12 @@ dist-ssr
 *.tsbuildinfo
 *.local
 
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
 # Local environment files — never commit credentials or deployment configuration.
 .env
 .env.*
