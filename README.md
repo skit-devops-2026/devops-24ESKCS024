@@ -36,6 +36,12 @@ Live preview: https://id-preview--977442ce-b91b-4acc-a56b-dae39855ff7f.lovable.a
 
 ## Getting started
 
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- Git
+
 Requirements: Node.js 20 or newer and npm.
 
 ```sh
