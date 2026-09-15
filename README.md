@@ -45,13 +45,12 @@ Live preview: https://id-preview--977442ce-b91b-4acc-a56b-dae39855ff7f.lovable.a
 Requirements: Node.js 20 or newer and npm.
 
 ```sh
-# After cloning this repository from its GitHub page, enter the cloned folder.
-cd project
+# Clone this repository and enter the project folder:
+git clone https://github.com/skit-devops-2026/devops-24ESKCS024.git
+cd devops-24ESKCS024
 npm install
 npm run dev
 ```
-
-Use the **Code** button on the GitHub repository page to copy its exact clone command.
 
 The app starts on http://localhost:8080.
 
