@@ -94,7 +94,7 @@ src/integrations/          Generated backend client and types
 supabase/migrations/       Database schema, policies and storage setup
 vitest.config.ts           Test runner configuration
 ```
-
+The project structure keeps UI components, routes, shared utilities, and configuration organized by responsibility.
 ## Data model
 
 - **profiles** — one row per user: name, email, phone, hostel block, room number
