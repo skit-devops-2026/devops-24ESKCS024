@@ -91,6 +91,12 @@ describe("paginate", () => {
 
   it("clamps invalid page numbers to the first page", () => {
     expect(paginate(items, 0, 2).map((c) => c.id)).toEqual(["1", "2"]);
+    expect(paginate(items, -5, 2).map((c) => c.id)).toEqual(["1", "2"]);
+  });
+
+  it("handles pagination when page size exceeds array length", () => {
+    expect(paginate(items, 1, 100)).toHaveLength(4);
+    expect(paginate([], 1, 10)).toEqual([]);
   });
 });
 
@@ -104,4 +110,32 @@ describe("buildImagePath", () => {
   it("falls back to jpg when there is no extension", () => {
     expect(buildImagePath("user-1", "photo").endsWith(".jpg")).toBe(true);
   });
+
+  it("handles file names with multiple dots correctly", () => {
+    const path = buildImagePath("user-2", "my.cool.photo.webp");
+    expect(path.startsWith("user-2/")).toBe(true);
+    expect(path.endsWith(".webp")).toBe(true);
+  });
 });
+
+describe("computeStats extended coverage", () => {
+  it("correctly counts in_progress and rejected status and computes 100% rate", () => {
+    const allResolved = [
+      make({ id: "10", status: "resolved" }),
+      make({ id: "11", status: "resolved" }),
+    ];
+    const stats100 = computeStats(allResolved);
+    expect(stats100.resolutionRate).toBe(100);
+    expect(stats100.resolved).toBe(2);
+
+    const mixed = [
+      make({ id: "20", status: "in_progress" }),
+      make({ id: "21", status: "rejected" }),
+    ];
+    const statsMixed = computeStats(mixed);
+    expect(statsMixed.in_progress).toBe(1);
+    expect(statsMixed.rejected).toBe(1);
+    expect(statsMixed.resolutionRate).toBe(0);
+  });
+});
+
