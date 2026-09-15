@@ -151,3 +151,13 @@ before merging. See `CONTRIBUTING.md` for the full workflow and commit message c
 Released for academic coursework use.
 DevOps workflow is managed using GitHub Actions and Jenkins.
 The Jenkins pipeline automatically installs dependencies, runs the test suite, builds the application, and archives the generated outputs.
+
+## Development Workflow
+
+1. Create a feature branch from `main`.
+2. Make the required changes.
+3. Run the tests locally.
+4. Push the feature branch to GitHub.
+5. Create a Pull Request.
+6. Verify that CI passes.
+7. Merge the Pull Request into `main`.
