@@ -12,7 +12,7 @@ describe("cn", () => {
   });
 
   it("skips falsy values", () => {
-    expect(cn("p-2", false && "hidden", undefined)).toBe("p-2");
+    expect(cn("p-2", (false as boolean) && "hidden", undefined)).toBe("p-2");
   });
 });
 

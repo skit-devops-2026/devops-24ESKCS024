@@ -5,7 +5,13 @@ import { toast } from "sonner";
 import { ArrowLeft, Loader2, Save, Trash2, UserCog } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { CATEGORIES, CATEGORY_MAP, HOSTEL_BLOCKS, STATUSES, type Complaint } from "@/lib/complaints";
+import {
+  CATEGORIES,
+  CATEGORY_MAP,
+  HOSTEL_BLOCKS,
+  STATUSES,
+  type Complaint,
+} from "@/lib/complaints";
 import { PageShell, Loader, StatusBadge } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -238,7 +244,10 @@ function ComplaintDetail() {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-2">
               <Label>Category</Label>
-              <Select value={edit.category} onValueChange={(v) => setEdit({ ...edit, category: v })}>
+              <Select
+                value={edit.category}
+                onValueChange={(v) => setEdit({ ...edit, category: v })}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

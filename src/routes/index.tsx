@@ -60,9 +60,21 @@ const FEATURES = [
 ];
 
 const STEPS = [
-  { n: "01", title: "Create your account", body: "Register with your room number and hostel block." },
-  { n: "02", title: "Raise a complaint", body: "Pick a category, describe the issue and attach a photo." },
-  { n: "03", title: "Track to resolution", body: "Follow status updates and admin remarks until it's fixed." },
+  {
+    n: "01",
+    title: "Create your account",
+    body: "Register with your room number and hostel block.",
+  },
+  {
+    n: "02",
+    title: "Raise a complaint",
+    body: "Pick a category, describe the issue and attach a photo.",
+  },
+  {
+    n: "03",
+    title: "Track to resolution",
+    body: "Follow status updates and admin remarks until it's fixed.",
+  },
 ];
 
 function Landing() {

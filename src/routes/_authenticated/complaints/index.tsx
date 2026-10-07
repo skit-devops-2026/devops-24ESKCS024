@@ -5,7 +5,13 @@ import { motion } from "motion/react";
 import { Plus, Search, ClipboardList, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { CATEGORIES, CATEGORY_MAP, HOSTEL_BLOCKS, STATUSES, type Complaint } from "@/lib/complaints";
+import {
+  CATEGORIES,
+  CATEGORY_MAP,
+  HOSTEL_BLOCKS,
+  STATUSES,
+  type Complaint,
+} from "@/lib/complaints";
 import { PageShell, PageHeading, SkeletonList, EmptyState, StatusBadge } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

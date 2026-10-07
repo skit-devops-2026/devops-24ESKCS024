@@ -2,12 +2,12 @@
 
 ## Branching model
 
-| Branch | Purpose |
-| --- | --- |
-| `main` | Always deployable. Only updated through merged pull requests. |
-| `develop` | Integration branch for the current milestone. |
-| `feature/<name>` | One branch per feature, branched from `develop`. |
-| `fix/<name>` | Bug fixes, branched from `develop` (or `main` for hotfixes). |
+| Branch           | Purpose                                                       |
+| ---------------- | ------------------------------------------------------------- |
+| `main`           | Always deployable. Only updated through merged pull requests. |
+| `develop`        | Integration branch for the current milestone.                 |
+| `feature/<name>` | One branch per feature, branched from `develop`.              |
+| `fix/<name>`     | Bug fixes, branched from `develop` (or `main` for hotfixes).  |
 
 ```sh
 git checkout develop

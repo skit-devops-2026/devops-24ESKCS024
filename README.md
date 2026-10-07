@@ -23,16 +23,16 @@ Live preview: https://id-preview--977442ce-b91b-4acc-a56b-dae39855ff7f.lovable.a
 
 ## Tech stack
 
-| Layer | Technology |
-| --- | --- |
-| Framework | TanStack Start v1 (React 19, file-based routing, server functions) |
-| Build tool | Vite 8 |
-| Styling | Tailwind CSS v4, shadcn-style UI kit, Framer Motion (`motion`) |
-| Data / charts | TanStack Query, Recharts |
-| Backend | Lovable Cloud — PostgreSQL, authentication, row-level security, object storage |
-| Validation | Zod + React Hook Form |
-| Tests | Vitest (+ v8 coverage) |
-| CI/CD | GitHub Actions (`.github/workflows/ci.yml`) and Jenkins (`Jenkinsfile`) |
+| Layer         | Technology                                                                     |
+| ------------- | ------------------------------------------------------------------------------ |
+| Framework     | TanStack Start v1 (React 19, file-based routing, server functions)             |
+| Build tool    | Vite 8                                                                         |
+| Styling       | Tailwind CSS v4, shadcn-style UI kit, Framer Motion (`motion`)                 |
+| Data / charts | TanStack Query, Recharts                                                       |
+| Backend       | Lovable Cloud — PostgreSQL, authentication, row-level security, object storage |
+| Validation    | Zod + React Hook Form                                                          |
+| Tests         | Vitest (+ v8 coverage)                                                         |
+| CI/CD         | GitHub Actions (`.github/workflows/ci.yml`) and Jenkins (`Jenkinsfile`)        |
 
 ## Getting started
 
@@ -69,16 +69,16 @@ stored in this repository, and `.env` is listed in `.gitignore`.
 
 ## npm scripts
 
-| Script | Purpose |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Production build |
-| `npm run preview` | Serve the production build locally |
-| `npm run lint` | ESLint over the whole project |
-| `npm run test` | Run the Vitest suite once |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:ci` | Run tests with a coverage report (used by CI) |
-| `npm run format` | Format the codebase with Prettier |
+| Script               | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| `npm run dev`        | Start the development server                  |
+| `npm run build`      | Production build                              |
+| `npm run preview`    | Serve the production build locally            |
+| `npm run lint`       | ESLint over the whole project                 |
+| `npm run test`       | Run the Vitest suite once                     |
+| `npm run test:watch` | Run tests in watch mode                       |
+| `npm run test:ci`    | Run tests with a coverage report (used by CI) |
+| `npm run format`     | Format the codebase with Prettier             |
 
 ## Project structure
 
@@ -93,7 +93,9 @@ src/integrations/          Generated backend client and types
 supabase/migrations/       Database schema, policies and storage setup
 vitest.config.ts           Test runner configuration
 ```
+
 The project structure keeps UI components, routes, shared utilities, and configuration organized by responsibility.
+
 ## Data model
 
 - **profiles** — one row per user: name, email, phone, hostel block, room number
@@ -115,7 +117,6 @@ storage-path helpers in `src/lib/complaint-utils.ts`, plus the class-merging uti
 domain constants. Every test runs on each push and pull request through GitHub Actions.
 All automated tests are executed using Vitest with coverage reporting.
 
-
 ## Continuous integration
 
 `.github/workflows/ci.yml` runs on every push, on pull requests targeting `main` and on
@@ -129,9 +130,9 @@ Archive stages. It expects a Jenkins NodeJS tool installation named `node20`.
 
 To run it locally:
 
-1. Install Jenkins and the *NodeJS*, *Pipeline* and *Git* plugins.
-2. In *Manage Jenkins → Tools*, add a NodeJS installation named `node20`.
-3. Create a new *Pipeline* job, choose *Pipeline script from SCM*, point it at this
+1. Install Jenkins and the _NodeJS_, _Pipeline_ and _Git_ plugins.
+2. In _Manage Jenkins → Tools_, add a NodeJS installation named `node20`.
+3. Create a new _Pipeline_ job, choose _Pipeline script from SCM_, point it at this
    repository and leave the script path as `Jenkinsfile`.
 4. Build now. The Test stage runs the same Vitest suite as GitHub Actions, and the Build
    stage archives the compiled output.

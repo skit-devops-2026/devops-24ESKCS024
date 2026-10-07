@@ -138,10 +138,7 @@ function NewComplaint() {
         <div className="grid gap-5 sm:grid-cols-3">
           <div className="space-y-2">
             <Label>Category</Label>
-            <Select
-              value={form.category}
-              onValueChange={(v) => setForm({ ...form, category: v })}
-            >
+            <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
               <SelectTrigger>
                 <SelectValue placeholder="Select" />
               </SelectTrigger>

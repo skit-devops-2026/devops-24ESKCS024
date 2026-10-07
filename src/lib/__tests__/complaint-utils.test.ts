@@ -138,4 +138,3 @@ describe("computeStats extended coverage", () => {
     expect(statsMixed.resolutionRate).toBe(0);
   });
 });
-
