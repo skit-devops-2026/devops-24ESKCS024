@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostelfix-deployment
+  labels:
+    app: hostelfix
+    tier: frontend
+    milestone: mt2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hostelfix
+  template:
+    metadata:
+      labels:
+        app: hostelfix
+        tier: frontend
+        milestone: mt2
+    spec:
+      containers:
+        - name: hostelfix
+          image: ghcr.io/skit-devops-2026/devops-24eskcs024:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "5000"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
