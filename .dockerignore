@@ -1,4 +1,15 @@
 node_modules
 .git
+.github
 .env
-npm-debug.log
+.env.*
+coverage
+dist
+build
+.output
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.wrangler
