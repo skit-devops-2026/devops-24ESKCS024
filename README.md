@@ -162,3 +162,170 @@ The Jenkins pipeline automatically installs dependencies, runs the test suite, b
 5. Create a Pull Request.
 6. Verify that CI passes.
 7. Merge the Pull Request into `main`.
+
+---
+
+# MT2 — Containerization, Deployment, Monitoring & Kubernetes
+
+## 1. Overview & Architecture
+Milestone 2 (MT2) builds upon the foundational CI/CD workflows of MT1 to provide enterprise-grade containerization, orchestration, continuous deployment, and Prometheus/Grafana observability.
+
+| Component | Technology | Target / Port | Status |
+|---|---|---|---|
+| Container Runtime | Docker (Multi-stage build) | Node 20 Alpine (`:5000`) | Complete |
+| Container Orchestration | Docker Compose | Services: `app`, `db`, `prometheus`, `grafana` | Complete |
+| Container Registry | GitHub Container Registry (GHCR) | `ghcr.io/skit-devops-2026/devops-24eskcs024:latest` | Automated via CI |
+| Cloud Hosting | Render / Docker-compatible runtime | `render.yaml` Blueprint (`/health`) | Configured |
+| Metrics & Monitoring | Prometheus + `prom-client` | Port 9090 (`/metrics`) | Complete |
+| Metrics Visualization | Grafana Dashboard | Port 3000 (`hostelfix-overview`) | Complete |
+| Kubernetes Manifests | Deployment & Service | 2 Replicas, Health Probes, Resource Limits | Complete |
+
+---
+
+## 2. Docker Setup & Build
+
+### Dockerfile Highlights
+The multi-stage `Dockerfile` uses `node:20-alpine`:
+- **Stage 1 (Builder)**: Installs build dependencies, compiles TypeScript and Vite production assets into `.output/`.
+- **Stage 2 (Runner)**: Installs production-only dependencies (`--omit=dev`), injects built assets and Express server, exposes port `5000`, and runs with zero secrets.
+
+### Docker Build & Run Commands
+```bash
+# Build the Docker image
+docker build -t hostel-fix .
+
+# Run the containerized application
+docker run -d -p 5000:5000 --name hostel-fix-app hostel-fix
+
+# Verify running container
+docker ps
+docker logs hostel-fix-app
+```
+
+---
+
+## 3. Docker Compose Stack
+
+The stack in `docker-compose.yml` orchestrates the application, database, and monitoring:
+- **`app`**: HostelFix container built from local `Dockerfile`, exposed on port `5000` with native healthchecks.
+- **`db`**: MongoDB container on port `27017` with persistent named volume `mongo-data`.
+- **`prometheus`**: Scrapes metrics from `app:5000/metrics` every 5 seconds.
+- **`grafana`**: Auto-provisions Prometheus datasource and the prebuilt dashboard.
+
+```bash
+# Validate compose configuration
+docker compose config
+
+# Build and start all services in detached mode
+docker compose up -d
+
+# Verify container statuses
+docker compose ps
+
+# Stop stack
+docker compose down
+```
+
+---
+
+## 4. Container Registry (GHCR)
+
+The production image is published to GitHub Container Registry:
+- **Image URL**: `ghcr.io/skit-devops-2026/devops-24eskcs024:latest`
+- **Automation**: Managed securely via `.github/workflows/ci.yml` using GitHub Actions native `secrets.GITHUB_TOKEN` with write permissions to `packages`.
+
+Pull command:
+```bash
+docker pull ghcr.io/skit-devops-2026/devops-24eskcs024:latest
+```
+
+---
+
+## 5. Live Deployment & Health Endpoint
+
+- **Health Check Endpoint**: `GET /health` returns HTTP 200:
+  ```json
+  {
+    "status": "ok"
+  }
+  ```
+- **Deployment Specification**: `render.yaml` infrastructure-as-code file specifies a Docker web service with automatic `/health` probing.
+- **Local / Deployed Verification**:
+  ```bash
+  curl -i http://localhost:5000/health
+  ```
+- **Deployment Screenshot**: Committed under [`docs/deployment-screenshot.png`](docs/deployment-screenshot.png).
+
+---
+
+## 6. Prometheus Monitoring & Metrics
+
+The application exposes real-time runtime metrics via `GET /metrics` using `prom-client`:
+- **HTTP Request Count**: `http_requests_total{method, route, status}`
+- **HTTP Latency**: `http_request_duration_seconds{method, route, status}`
+- **Node.js Process Metrics**: CPU time, RSS resident memory, heap usage, event loop lag.
+
+Prometheus configuration is stored at `monitoring/prometheus.yml`:
+```yaml
+scrape_configs:
+  - job_name: "hostel-fix-app"
+    scrape_interval: 5s
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["app:5000", "localhost:5000"]
+```
+
+Verification command:
+```bash
+curl -s http://localhost:5000/metrics | head -n 30
+```
+
+---
+
+## 7. Monitoring Dashboard
+
+Grafana configuration and dashboard assets are version-controlled under `monitoring/`:
+- **Dashboard JSON**: `monitoring/grafana/dashboards/hostel-fix-dashboard.json`
+- **Datasource Provisioning**: `monitoring/grafana/provisioning/datasources/datasource.yml`
+- **Dashboard Provider**: `monitoring/grafana/provisioning/dashboards/dashboard-provider.yml`
+
+Dashboard panels:
+1. **Application Availability**: Real-time UP/DOWN status indicator.
+2. **Total HTTP Requests**: Request counter.
+3. **Request Rate (req/s)**: Real-time traffic rate.
+4. **Average Response Latency**: p95 and average request duration.
+5. **HTTP Status Breakdown**: Distribution of HTTP status codes (200, 400, 404, 500).
+6. **Process Memory (RSS)**: Memory consumption tracking.
+7. **Process CPU Usage**: Core utilization percentage.
+
+---
+
+## 8. Kubernetes Manifests
+
+Production Kubernetes manifests are located in `k8s/`:
+- **`k8s/deployment.yaml`**:
+  - Image: `ghcr.io/skit-devops-2026/devops-24eskcs024:latest`
+  - Replicas: 2
+  - Resource Requests: 100m CPU / 128Mi Memory
+  - Resource Limits: 500m CPU / 512Mi Memory
+  - Liveness Probe: `HTTP GET /health:5000`
+  - Readiness Probe: `HTTP GET /health:5000`
+- **`k8s/service.yaml`**:
+  - Type: `ClusterIP`
+  - Selector: `app: hostelfix`
+  - Port: 80 -> TargetPort: 5000
+
+### Verification Commands
+```bash
+# Validate manifests with client dry-run
+kubectl apply --dry-run=client -f k8s/
+
+# Apply manifests to cluster
+kubectl apply -f k8s/
+
+# Verify deployment and service status
+kubectl get deployments
+kubectl get pods -l app=hostelfix
+kubectl get services hostelfix-service
+```
+
