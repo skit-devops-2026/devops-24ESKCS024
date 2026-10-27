@@ -1,5 +1,18 @@
 # HostelFix — Hostel Complaint Management System
 
+## Author
+
+| Roll No. | Name | GitHub Username |
+|---|---|---|
+| 24ESKCS024 | Aditya Swami | [Aditya44350T](https://github.com/Aditya44350T) |
+
+## Live Deployment
+
+- **Live Application URL:** [https://devops-24eskcs024.onrender.com](https://devops-24eskcs024.onrender.com)
+- **Health Check Endpoint:** [https://devops-24eskcs024.onrender.com/health](https://devops-24eskcs024.onrender.com/health)
+- **Metrics Endpoint:** [https://devops-24eskcs024.onrender.com/metrics](https://devops-24eskcs024.onrender.com/metrics)
+- **Deployment Status:** Responding (HTTP 200 OK)
+
 HostelFix is a full-stack web application that lets hostel students raise maintenance
 complaints (electrical, plumbing, internet, furniture, cleanliness, water and other issues),
 attach a photo of the problem, and follow the complaint until it is resolved. Wardens and
@@ -243,16 +256,20 @@ docker pull ghcr.io/skit-devops-2026/devops-24eskcs024:latest
 
 ## 5. Live Deployment & Health Endpoint
 
-- **Health Check Endpoint**: `GET /health` returns HTTP 200:
+- **Live Application URL**: [https://devops-24eskcs024.onrender.com](https://devops-24eskcs024.onrender.com)
+- **Health Check Endpoint**: [https://devops-24eskcs024.onrender.com/health](https://devops-24eskcs024.onrender.com/health)
+- **Metrics Endpoint**: [https://devops-24eskcs024.onrender.com/metrics](https://devops-24eskcs024.onrender.com/metrics)
+- **Deployment Specification**: `render.yaml` infrastructure-as-code file specifies a Docker web service with automatic `/health` probing.
+- **Deployment Status**: Active & Responding (HTTP 200 OK)
+- **Health Check Response**:
   ```json
   {
     "status": "ok"
   }
   ```
-- **Deployment Specification**: `render.yaml` infrastructure-as-code file specifies a Docker web service with automatic `/health` probing.
-- **Local / Deployed Verification**:
+- **Live Verification Command**:
   ```bash
-  curl -i http://localhost:5000/health
+  curl -i https://devops-24eskcs024.onrender.com/health
   ```
 - **Deployment Screenshot**: Committed under [`docs/deployment-screenshot.png`](docs/deployment-screenshot.png).
 
@@ -323,27 +340,32 @@ kubectl apply --dry-run=client -f k8s/
 # Apply manifests to cluster
 kubectl apply -f k8s/
 
-## Live Deployment
-
-- **Live Application:** https://YOUR-RENDER-URL
-- **Health Check:** https://YOUR-RENDER-URL/health
-
-The health endpoint returns HTTP 200 OK
-with the response:
-
-{"status":"ok"}
 # Verify deployment and service status
 kubectl get deployments
 kubectl get pods -l app=hostelfix
 kubectl get services hostelfix-service
 ```
 
-## Live Deployment
+---
 
-- **Live Application:** (https://devops-24eskcs024.onrender.com)
-- **Health Check:** (https://devops-24eskcs024.onrender.com)/health
+## 9. Live Deployment Summary & Verification
 
-The health endpoint returns HTTP 200 OK
-with the response:
+| Property | Value / Status |
+|---|---|
+| **Live Application URL** | [https://devops-24eskcs024.onrender.com](https://devops-24eskcs024.onrender.com) |
+| **Health Check Endpoint** | [https://devops-24eskcs024.onrender.com/health](https://devops-24eskcs024.onrender.com/health) |
+| **Metrics Endpoint** | [https://devops-24eskcs024.onrender.com/metrics](https://devops-24eskcs024.onrender.com/metrics) |
+| **HTTP Status Code** | `200 OK` |
+| **Health Response** | `{"status":"ok"}` |
+| **Container Registry** | `ghcr.io/skit-devops-2026/devops-24eskcs024:latest` |
+| **Hosting Platform** | Render Cloud (`devops-24eskcs024-hostelfix`) |
+| **Deployment Screenshot** | [`docs/deployment-screenshot.png`](docs/deployment-screenshot.png) |
 
-{"status":"ok"}
+### Terminal Verification Commands
+```bash
+# Verify health check endpoint (HTTP 200 OK)
+curl -i https://devops-24eskcs024.onrender.com/health
+
+# Verify Prometheus metrics endpoint
+curl -s https://devops-24eskcs024.onrender.com/metrics | head -n 25
+```
