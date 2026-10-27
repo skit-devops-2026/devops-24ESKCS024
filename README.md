@@ -340,8 +340,8 @@ kubectl get services hostelfix-service
 
 ## Live Deployment
 
-- **Live Application:** https://YOUR-RENDER-URL
-- **Health Check:** https://YOUR-RENDER-URL/health
+- **Live Application:** [https://YOUR-RENDER-URL](https://devops-24eskcs024.onrender.com)
+- **Health Check:** [https://YOUR-RENDER-URL](https://devops-24eskcs024.onrender.com)/health
 
 The health endpoint returns HTTP 200 OK
 with the response:
