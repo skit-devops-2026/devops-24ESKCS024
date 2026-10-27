@@ -323,6 +323,15 @@ kubectl apply --dry-run=client -f k8s/
 # Apply manifests to cluster
 kubectl apply -f k8s/
 
+## Live Deployment
+
+- **Live Application:** https://YOUR-RENDER-URL
+- **Health Check:** https://YOUR-RENDER-URL/health
+
+The health endpoint returns HTTP 200 OK
+with the response:
+
+{"status":"ok"}
 # Verify deployment and service status
 kubectl get deployments
 kubectl get pods -l app=hostelfix
