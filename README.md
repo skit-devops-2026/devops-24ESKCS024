@@ -338,3 +338,12 @@ kubectl get pods -l app=hostelfix
 kubectl get services hostelfix-service
 ```
 
+## Live Deployment
+
+- **Live Application:** https://YOUR-RENDER-URL
+- **Health Check:** https://YOUR-RENDER-URL/health
+
+The health endpoint returns HTTP 200 OK
+with the response:
+
+{"status":"ok"}
