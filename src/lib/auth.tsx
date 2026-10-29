@@ -38,16 +38,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const load = async (userId: string) => {
-    const [{ data: p }, { data: roles }] = await Promise.all([
-      supabase
-        .from("profiles")
-        .select("id,name,email,room_number,hostel_block,phone")
-        .eq("id", userId)
-        .maybeSingle(),
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-    ]);
-    setProfile((p as Profile) ?? null);
-    setIsAdmin(!!roles?.some((r) => r.role === "admin"));
+    try {
+      const [{ data: p }, { data: roles }] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("id,name,email,room_number,hostel_block,phone")
+          .eq("id", userId)
+          .maybeSingle(),
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+      ]);
+      setProfile((p as Profile) ?? null);
+      setIsAdmin(!!roles?.some((r) => r.role === "admin"));
+    } catch (e) {
+      console.warn("[Auth] Failed to load profile:", e);
+    }
   };
 
   useEffect(() => {
@@ -61,11 +65,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    supabase.auth.getSession().then(async ({ data }) => {
-      setSession(data.session);
-      if (data.session?.user) await load(data.session.user.id);
-      setLoading(false);
-    });
+    supabase.auth
+      .getSession()
+      .then(async ({ data }) => {
+        setSession(data?.session ?? null);
+        if (data?.session?.user) await load(data.session.user.id);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.warn("[Auth] getSession error:", err);
+        setLoading(false);
+      });
 
     return () => sub.subscription.unsubscribe();
   }, []);

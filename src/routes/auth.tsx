@@ -5,6 +5,7 @@ import { Building2, Mail, Lock, User2, Phone, DoorClosed, Loader2 } from "lucide
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { createMockSupabaseClient } from "@/integrations/supabase/mock-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
