@@ -25,9 +25,9 @@ This document maps each Milestone 2 requirement (Containerization, Deployment & 
 
 | Requirement | Status | Implementation Details / Location |
 |---|---|---|
-| **Live Application URL** | **Done (Responding)** | [https://devops-24eskcs024.onrender.com](https://devops-24eskcs024.onrender.com) (HTTP 200 OK) |
-| **Health Check Endpoint** | **Done (Responding)** | `GET /health` -> [https://devops-24eskcs024.onrender.com/health](https://devops-24eskcs024.onrender.com/health) (HTTP 200 OK, `{"status":"ok"}`) |
-| **Prometheus Metrics** | **Done (Responding)** | `GET /metrics` -> [https://devops-24eskcs024.onrender.com/metrics](https://devops-24eskcs024.onrender.com/metrics) (`prom-client`) |
+| **Live Application URL** | **Done (Responding)** | [https://devops-24eskcs024-1.onrender.com](https://devops-24eskcs024-1.onrender.com) (HTTP 200 OK) |
+| **Health Check Endpoint** | **Done (Responding)** | `GET /health` -> [https://devops-24eskcs024-1.onrender.com/health](https://devops-24eskcs024-1.onrender.com/health) (HTTP 200 OK, `{"status":"ok"}`) |
+| **Prometheus Metrics** | **Done (Responding)** | `GET /metrics` -> [https://devops-24eskcs024-1.onrender.com/metrics](https://devops-24eskcs024-1.onrender.com/metrics) (`prom-client`) |
 | Prometheus Scrape Configuration | **Done** | `monitoring/prometheus.yml` (scrapes app at 5s intervals) |
 | Grafana Dashboard & Datasource | **Done** | `monitoring/grafana/dashboards/hostel-fix-dashboard.json`, auto-provisioning |
 | Deployment Verification Screenshot | **Done** | `docs/deployment-screenshot.png` |
@@ -36,7 +36,7 @@ This document maps each Milestone 2 requirement (Containerization, Deployment & 
 ### Live Response Evidence
 1. **Health Check Probe:**
    ```bash
-   curl -i https://devops-24eskcs024.onrender.com/health
+   curl -i https://devops-24eskcs024-1.onrender.com/health
    ```
    **Response (HTTP 200 OK):**
    ```json
@@ -47,7 +47,7 @@ This document maps each Milestone 2 requirement (Containerization, Deployment & 
 
 2. **Metrics Endpoint Probe:**
    ```bash
-   curl -i https://devops-24eskcs024.onrender.com/metrics
+   curl -i https://devops-24eskcs024-1.onrender.com/metrics
    ```
    **Response (HTTP 200 OK):** Exposes `http_requests_total`, `http_request_duration_seconds`, process CPU & memory metrics.
 
